@@ -10,8 +10,8 @@ export function isNode(): boolean {
 }
 
 export function getBaseUrl(url?: string): string {
-    let noDomainBaseUrl: string;
-    if (url != null) {
+    let noDomainBaseUrl: string = "";
+    if (url) {
         if (domain.active) {
             // There's an active domain (e.g., in Node.js), so associate the base URL with it.
             domainContext.set(domainTaskBaseUrlStateKey, url);

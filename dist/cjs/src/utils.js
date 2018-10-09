@@ -8,8 +8,8 @@ function isNode() {
 }
 exports.isNode = isNode;
 function getBaseUrl(url) {
-    var noDomainBaseUrl;
-    if (url != null) {
+    var noDomainBaseUrl = "";
+    if (url) {
         if (domain.active) {
             domainContext.set(constants_1.domainTaskBaseUrlStateKey, url);
         }

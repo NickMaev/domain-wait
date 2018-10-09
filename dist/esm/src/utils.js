@@ -5,8 +5,8 @@ export function isNode() {
     return typeof process === 'object' && process.versions && !!process.versions.node;
 }
 export function getBaseUrl(url) {
-    var noDomainBaseUrl;
-    if (url != null) {
+    var noDomainBaseUrl = "";
+    if (url) {
         if (domain.active) {
             domainContext.set(domainTaskBaseUrlStateKey, url);
         }
