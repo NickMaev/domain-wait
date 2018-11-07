@@ -1,7 +1,7 @@
 {
   "name": "domain-wait",
-  "version": "1.0.12",
-  "description": "Library that allows you to use async/await syntax in ASP.NET Core NodeServices prerendering",
+  "version": "1.1.0",
+  "description": "Allows you to use async/await syntax in ASP.NET Core NodeServices prerendering. Also includes some features.",
   "scripts": {
     "build:esm": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json --module es2015 --outDir ./dist/esm -d",
     "build:cjs": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json --module commonjs --outDir ./dist/cjs",
@@ -13,20 +13,6 @@
   "typings": "./dist/esm/index.d.ts",
   "devDependencies": {
     "rimraf": "^2.6.2",
-    "uglify-js": "^3.4.7",
-    "babel-core": "^6.26.0",
-    "babel-jest": "^22.4.1",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-plugin-transform-react-jsx": "^6.24.1",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-es2015-rollup": "^3.0.0",
-    "babel-plugin-add-module-exports": "0.3.3",
-    "babel-loader": "^7.1.5",
-    "webpack": "^4.16.5",
-    "webpack-cli": "^3.1.0",
-    "ts-loader": "^4.4.2",
     "typescript": "^3.0.1"
   },
   "repository": {

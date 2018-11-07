@@ -39,12 +39,29 @@ var constants_1 = require("./constants");
 var utils_1 = require("./utils");
 var domain = require("domain");
 var domainContext = require("domain-context");
+var completedTasks_1 = require("./completedTasks");
 function wait(task) {
     return __awaiter(this, void 0, void 0, function () {
-        var state_1, error_1;
+        var taskHashCode, completedTasksKey, _completedTasks, completedTaskIndex, state_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    taskHashCode = utils_1.getHashCode(task.toString());
+                    if (!utils_1.isNode()) {
+                        completedTasksKey = "completedTasks";
+                        _completedTasks = window[completedTasksKey];
+                        if (_completedTasks) {
+                            completedTaskIndex = _completedTasks.indexOf(taskHashCode);
+                            if (completedTaskIndex > -1) {
+                                _completedTasks.splice(completedTaskIndex, 1);
+                                window[completedTasksKey] = _completedTasks;
+                                return [2];
+                            }
+                        }
+                        else {
+                            console.log("domain-wait: Array \"window." + completedTasksKey + "\" not defined. Please define it to use the \"wait\" method. This will prevent fething your data twice.");
+                        }
+                    }
                     if (!!utils_1.isNode()) return [3, 2];
                     return [4, task(utils_1.transformUrl)];
                 case 1:
@@ -61,6 +78,9 @@ function wait(task) {
                     return [4, task(utils_1.transformUrl)];
                 case 4:
                     _a.sent();
+                    if (completedTasks_1.completedTasks.indexOf(taskHashCode) === -1) {
+                        completedTasks_1.completedTasks.push(taskHashCode);
+                    }
                     setTimeout(function () {
                         state_1.numRemainingTasks--;
                         if (state_1.numRemainingTasks === 0 && !state_1.hasIssuedSuccessCallback) {

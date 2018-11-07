@@ -32,4 +32,14 @@ function transformUrl(url) {
 }
 exports.transformUrl = transformUrl;
 ;
+function getHashCode(string) {
+    var hash = 0;
+    for (var i = 0; i < string.length; i++) {
+        var character = string.charCodeAt(i);
+        hash = ((hash << 5) - hash) + character;
+        hash = hash & hash;
+    }
+    return hash;
+}
+exports.getHashCode = getHashCode;
 //# sourceMappingURL=utils.js.map

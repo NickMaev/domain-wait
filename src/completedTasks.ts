@@ -1,0 +1,2 @@
+var completedTasks = [];
+export { completedTasks };
