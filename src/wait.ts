@@ -1,4 +1,4 @@
-import { domainTasksStateKey } from "./constants";
+import { domainTasksStateKey } from "./Constants";
 import { isNode, transformUrl, getHashCode } from "./utils";
 import { IDomainTasksState } from "./IDomainTasksState";
 

@@ -2,7 +2,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var domain = require("domain");
 var domainContext = require("domain-context");
-var constants_1 = require("./constants");
+var Constants_1 = require("./Constants");
 function isNode() {
     return typeof process === 'object' && process.versions && !!process.versions.node;
 }
@@ -11,13 +11,13 @@ function getBaseUrl(url) {
     var noDomainBaseUrl = "";
     if (url) {
         if (domain.active) {
-            domainContext.set(constants_1.domainTaskBaseUrlStateKey, url);
+            domainContext.set(Constants_1.domainTaskBaseUrlStateKey, url);
         }
         else {
             noDomainBaseUrl = url;
         }
     }
-    return domain.active ? domainContext.get(constants_1.domainTaskBaseUrlStateKey) : noDomainBaseUrl;
+    return domain.active ? domainContext.get(Constants_1.domainTaskBaseUrlStateKey) : noDomainBaseUrl;
 }
 exports.getBaseUrl = getBaseUrl;
 function transformUrl(url) {

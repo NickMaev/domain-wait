@@ -1,7 +1,7 @@
 import * as domain from 'domain';
 import * as domainContext from 'domain-context';
 
-import { domainTaskBaseUrlStateKey } from "./constants";
+import { domainTaskBaseUrlStateKey } from "./Constants";
 
 declare var process: any;
 

@@ -1,6 +1,6 @@
 {
   "name": "domain-wait",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Allows you to use async/await syntax in ASP.NET Core NodeServices prerendering. Also includes some features.",
   "scripts": {
     "build:esm": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json --module es2015 --outDir ./dist/esm -d",

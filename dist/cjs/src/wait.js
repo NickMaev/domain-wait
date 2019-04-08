@@ -35,7 +35,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var constants_1 = require("./constants");
+var Constants_1 = require("./Constants");
 var utils_1 = require("./utils");
 var domain = require("domain");
 var domainContext = require("domain-context");
@@ -69,7 +69,7 @@ function wait(task) {
                     return [2];
                 case 2:
                     if (!(task && domain.active)) return [3, 6];
-                    state_1 = domainContext.get(constants_1.domainTasksStateKey);
+                    state_1 = domainContext.get(Constants_1.domainTasksStateKey);
                     if (!state_1) return [3, 6];
                     state_1.numRemainingTasks++;
                     _a.label = 3;
