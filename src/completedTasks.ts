@@ -1,2 +1,0 @@
-var completedTasks = [];
-export { completedTasks };

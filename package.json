@@ -1,23 +1,23 @@
 {
   "name": "domain-wait",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Allows you to use async/await syntax in ASP.NET Core NodeServices prerendering. Also includes some features.",
   "scripts": {
-    "build:esm": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json --module es2015 --outDir ./dist/esm -d",
-    "build:cjs": "node ./node_modules/typescript/bin/tsc --project ./tsconfig.json --module commonjs --outDir ./dist/cjs",
+    "build:esm": "tsc --project ./tsconfig.json --module es2015 --outDir ./dist/esm -d",
+    "build:cjs": "tsc --project ./tsconfig.json --module commonjs --outDir ./dist/cjs",
     "build": "npm run clean && npm run build:esm && npm run build:cjs",
-    "clean": "node ./node_modules/rimraf ./dist"
+    "clean": "rimraf ./dist"
   },
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "typings": "./dist/esm/index.d.ts",
   "devDependencies": {
-    "rimraf": "^2.6.2",
-    "typescript": "^3.0.1"
+    "rimraf": "2.6.3",
+    "typescript": "3.4.5"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/NickMaev/nval.git"
+    "url": "git+https://github.com/NickMaev/domain-wait.git"
   },
   "author": "Nikolay Maev <trix.mnr@gmail.com>",
   "license": "MIT",

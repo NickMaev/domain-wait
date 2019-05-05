@@ -33,52 +33,96 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-import { domainTasksStateKey } from "./Constants";
+import { domainTasksStateKey, completedTasksKey } from "./Constants";
 import { isNode, transformUrl, getHashCode } from "./utils";
 import * as domain from 'domain';
 import * as domainContext from 'domain-context';
-import { completedTasks } from "./completedTasks";
+import { options } from "./options";
+var log = function (message) {
+    if (options.isDebug === true) {
+        if (options.logFn) {
+            options.logFn(message);
+        }
+    }
+};
+var nodeData = null;
+export function connect(nodeServicesBootFuncParams) {
+    if (!nodeServicesBootFuncParams) {
+        throw Error("\"bootFuncParamsData\" is null.");
+    }
+    if (!nodeServicesBootFuncParams.data) {
+        nodeServicesBootFuncParams.data = {
+            completedTasks: []
+        };
+    }
+    nodeData = nodeServicesBootFuncParams.data;
+    if (!nodeData.completedTasks) {
+        nodeData.completedTasks = [];
+    }
+}
+export function getCompletedTasks() {
+    if (isNode()) {
+        if (!nodeData || !nodeData.completedTasks) {
+            return [];
+        }
+        return nodeData.completedTasks;
+    }
+    return window[completedTasksKey];
+}
 export function wait(task) {
     return __awaiter(this, void 0, void 0, function () {
-        var taskHashCode, completedTasksKey, _completedTasks, completedTaskIndex, state_1, error_1;
+        var taskHashCode, _completedTasks, completedTaskIndex, state_1, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
+                    if (!task) {
+                        throw Error("\"task\" is null.");
+                    }
                     taskHashCode = getHashCode(task.toString());
-                    if (!isNode()) {
-                        completedTasksKey = "completedTasks";
-                        _completedTasks = window[completedTasksKey];
-                        if (_completedTasks) {
-                            completedTaskIndex = _completedTasks.indexOf(taskHashCode);
-                            if (completedTaskIndex > -1) {
-                                _completedTasks.splice(completedTaskIndex, 1);
-                                window[completedTasksKey] = _completedTasks;
-                                return [2];
-                            }
-                        }
-                        else {
-                            console.log("domain-wait: Array \"window." + completedTasksKey + "\" not defined. Please define it to use the \"wait\" method. This will prevent fething your data twice.");
+                    log("Start executing task \"" + taskHashCode + "\".\nFunction:\n " + task.toString());
+                    if (!!isNode()) return [3, 2];
+                    log("Executing task \"" + taskHashCode + "\" in browser.");
+                    _completedTasks = window[completedTasksKey];
+                    if (_completedTasks) {
+                        completedTaskIndex = _completedTasks.indexOf(taskHashCode);
+                        if (completedTaskIndex > -1) {
+                            log("Prevent execution task \"" + taskHashCode + "\" in browser.");
+                            _completedTasks.splice(completedTaskIndex, 1);
+                            window[completedTasksKey] = _completedTasks;
+                            return [2];
                         }
                     }
-                    if (!!isNode()) return [3, 2];
+                    else {
+                        console.log("domain-wait: Array \"window." + completedTasksKey + "\" not defined. Please define it to use the \"wait\" method. This will prevent fething your data twice.");
+                    }
                     return [4, task(transformUrl)];
                 case 1:
                     _a.sent();
-                    return [2];
+                    log("Task \"" + taskHashCode + "\" completed in browser.\nCompleted Node tasks: " + JSON.stringify(_completedTasks));
+                    return [3, 6];
                 case 2:
-                    if (!(task && domain.active)) return [3, 6];
+                    if (!domain.active) return [3, 6];
+                    if (!domainContext) {
+                        log("Critical error while executing task \"" + taskHashCode + "\" in Node.");
+                        throw Error("Domain context of the NodeServices has been lost. Possibly you try to acquire it in incorrect way.");
+                    }
                     state_1 = domainContext.get(domainTasksStateKey);
-                    if (!state_1) return [3, 6];
+                    if (!state_1) {
+                        log("Critical error while executing task \"" + taskHashCode + "\" in Node.");
+                        return [2];
+                    }
                     state_1.numRemainingTasks++;
                     _a.label = 3;
                 case 3:
                     _a.trys.push([3, 5, , 6]);
+                    log("Executing task \"" + taskHashCode + "\" asynchronously in Node.");
                     return [4, task(transformUrl)];
                 case 4:
                     _a.sent();
-                    if (completedTasks.indexOf(taskHashCode) === -1) {
-                        completedTasks.push(taskHashCode);
+                    if (nodeData.completedTasks.indexOf(taskHashCode) === -1) {
+                        nodeData.completedTasks.push(taskHashCode);
                     }
+                    log("Task \"" + taskHashCode + "\" completed in Node.");
                     setTimeout(function () {
                         state_1.numRemainingTasks--;
                         if (state_1.numRemainingTasks === 0 && !state_1.hasIssuedSuccessCallback) {
@@ -91,6 +135,7 @@ export function wait(task) {
                     return [3, 6];
                 case 5:
                     error_1 = _a.sent();
+                    log("Error while executing task \"" + taskHashCode + "\" in Node.");
                     state_1.completionCallback(error_1);
                     return [3, 6];
                 case 6: return [2];
@@ -98,4 +143,4 @@ export function wait(task) {
         });
     });
 }
-//# sourceMappingURL=wait.js.map
+//# sourceMappingURL=index.js.map

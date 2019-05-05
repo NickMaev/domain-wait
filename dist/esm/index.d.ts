@@ -1,3 +1,3 @@
-export { wait } from './src/wait';
+export { wait, connect, getCompletedTasks } from "./src/index";
 export { transformUrl } from "./src/utils";
-export { completedTasks } from "./src/completedTasks";
+export { options } from "./src/options";
